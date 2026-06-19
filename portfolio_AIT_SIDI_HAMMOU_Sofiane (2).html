@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio – Sofiane AIT SIDI HAMMOU</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0e1a; --bg2: #111827; --bg3: #1a2235;
+    --cyan: #00e5ff; --violet: #7c3aed; --text: #e2e8f0; --muted: #8892a4;
+    --border: rgba(0,229,255,0.15); --border-v: rgba(124,58,237,0.25);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,14,26,0.92); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.5rem; height: 54px; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; color: var(--cyan); }
+  .nav-links { display: flex; gap: 1.1rem; list-style: none; flex-wrap: wrap; }
+  .nav-links a { font-size: 0.72rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.07em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--cyan); }
+
+  section { padding: 4.5rem 1.5rem; max-width: 860px; margin: 0 auto; }
+
+  /* ABOUT */
+  .about { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 5rem; }
+  .about-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.8rem; }
+  .about h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.1; color: #fff; margin-bottom: 0.8rem; letter-spacing: -0.03em; }
+  .about h1 span { color: var(--cyan); }
+  .about-intro { font-size: 1.05rem; color: var(--text); max-width: 620px; margin-bottom: 1rem; line-height: 1.75; }
+  .about-sub { font-size: 0.9rem; color: var(--muted); max-width: 600px; margin-bottom: 1.8rem; line-height: 1.7; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 2rem; }
+  .badge { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em; padding: 0.28rem 0.7rem; border-radius: 999px; border: 1px solid var(--border); color: var(--cyan); background: rgba(0,229,255,0.06); }
+  .btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 0.6rem 1.3rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .btn-primary { background: var(--cyan); color: #0a0e1a; border: none; }
+  .btn-primary:hover { background: #33ebff; }
+  .btn-outline { background: transparent; color: var(--cyan); border: 1px solid rgba(0,229,255,0.4); }
+  .btn-outline:hover { background: rgba(0,229,255,0.08); }
+
+  /* ABOUT CARDS */
+  .about-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-top: 2.5rem; }
+  .about-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; }
+  .about-card-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .about-card-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 0.25rem; }
+  .about-card-text { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  .section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.4rem; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; color: #fff; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+  .section-desc { color: var(--muted); font-size: 0.88rem; margin-bottom: 2rem; max-width: 540px; }
+  .divider { width: 40px; height: 2px; background: var(--cyan); margin: 0.8rem 0 1.8rem; border-radius: 2px; }
+
+  /* ACS */
+  .ac-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.85rem; }
+  .ac-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+  .ac-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--cyan); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+  .ac-card:hover::before { transform: scaleX(1); }
+  .ac-card:hover { border-color: rgba(0,229,255,0.35); transform: translateY(-2px); }
+  .ac-num { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; color: var(--violet); margin-bottom: 0.3rem; }
+  .ac-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.35rem; }
+  .ac-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+  .ac-proof { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; color: var(--cyan); margin-top: 0.6rem; }
+
+  /* SAE / Stage timeline */
+  .timeline { position: relative; padding-left: 1.8rem; }
+  .timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom, var(--cyan), var(--violet)); }
+  .tl-item { position: relative; margin-bottom: 2.2rem; }
+  .tl-dot { position: absolute; left: -1.8rem; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+  .tl-tag { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--violet); margin-bottom: 0.25rem; }
+  .tl-title { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.35rem; }
+  .tl-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.6rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .skill-tag { font-size: 0.68rem; padding: 0.18rem 0.55rem; border-radius: 4px; background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.22); }
+
+  /* Stage card */
+  .stage-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; }
+  .stage-card.s1 { border-top: 3px solid var(--violet); }
+  .stage-card.s2 { border-top: 3px solid var(--cyan); }
+  .stage-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.2rem; }
+  .stage-logo { width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .stage-logo.s1 { background: rgba(124,58,237,0.15); }
+  .stage-logo.s2 { background: rgba(0,229,255,0.1); }
+  .stage-entreprise { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: #fff; }
+  .stage-meta { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+  .stage-problematique { background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; padding: 0.9rem 1.1rem; margin: 1rem 0; font-size: 0.84rem; color: var(--text); font-style: italic; line-height: 1.6; }
+  .stage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+  .stage-bloc { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; }
+  .stage-bloc-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; color: var(--cyan); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .stage-bloc-text { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .stage-acs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+  .stage-ac-tag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(0,229,255,0.08); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+
+  /* Séminaire */
+  .sem-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; border-left: 3px solid var(--violet); }
+  .sem-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+  .sem-icon { width: 46px; height: 46px; border-radius: 8px; background: rgba(124,58,237,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .sem-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.08rem; font-weight: 700; color: #fff; }
+  .sem-semester { font-size: 0.76rem; color: var(--violet); font-weight: 500; margin-top: 0.2rem; }
+  .sem-body { font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
+  .sem-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 0.65rem; margin-top: 1.1rem; }
+  .sem-feature { background: var(--bg3); border: 1px solid var(--border-v); border-radius: 8px; padding: 0.75rem 0.9rem; }
+  .sem-feature-title { font-size: 0.72rem; color: #a78bfa; font-weight: 600; margin-bottom: 0.25rem; }
+  .sem-feature-text { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+  .sem-acs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+  .sem-ac { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(124,58,237,0.12); color: #a78bfa; border: 1px solid rgba(124,58,237,0.25); }
+
+  /* Compétences */
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.85rem; }
+  .comp-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; }
+  .comp-label { font-size: 0.75rem; font-weight: 500; color: var(--muted); margin-bottom: 0.4rem; }
+  .comp-name { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.65rem; }
+  .comp-bar-bg { height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; }
+  .comp-bar { height: 3px; background: var(--cyan); border-radius: 2px; transition: width 1.2s ease; }
+
+  /* Contact */
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: var(--text); transition: border-color 0.2s, transform 0.2s; }
+  .contact-card:hover { border-color: rgba(0,229,255,0.35); transform: translateY(-2px); }
+  .contact-icon { width: 38px; height: 38px; border-radius: 7px; background: rgba(0,229,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--cyan); flex-shrink: 0; }
+  .contact-label { font-size: 0.68rem; color: var(--muted); margin-bottom: 0.08rem; }
+  .contact-val { font-weight: 500; font-size: 0.84rem; }
+
+  footer { text-align: center; padding: 1.8rem; color: var(--muted); font-size: 0.75rem; border-top: 1px solid var(--border); }
+
+  .stage-gap { margin-top: 1.5rem; }
+  .note-badge { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); border-radius: 6px; padding: 0.22rem 0.65rem; font-size: 0.75rem; font-weight: 600; color: var(--cyan); margin-bottom: 0.5rem; }
+  .note-badge.violet { background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.3); color: #a78bfa; }
+  .note-badge.pending { background: rgba(136,146,164,0.1); border-color: rgba(136,146,164,0.25); color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Sofiane · Portfolio BUT MLT</span>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#acs">Compétences</a></li>
+    <li><a href="#sae">SAE</a></li>
+    <li><a href="#stage">Stages</a></li>
+
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ABOUT / PRÉSENTATION -->
+<section class="about" id="about">
+  <p class="about-eyebrow">BUT MLT · Parcours MSCC · IUT Moselle-Est · Sarreguemines</p>
+  <h1>Sofiane <span>AIT SIDI HAMMOU</span></h1>
+  <p class="about-intro">
+    Étudiant en 2ᵉ année de BUT Management de la Logistique et des Transports, parcours Mobilité et Supply Chain Connectées, je construis une expertise au croisement de la logistique opérationnelle, de la digitalisation des flux et de la gestion de la supply chain.
+  </p>
+  <p class="about-sub">
+    Titulaire d'un baccalauréat Math-SVT (Lycée Jean Moulin, Forbach, 2024), j'ai choisi le BUT MLT pour transformer ma rigueur scientifique en compétences terrain. Deux stages en entreprise — distribution de pièces automobiles en 1ʳᵉ année, entrepôt logistique automobile en 2ᵉ année — m'ont permis de valider concrètement les apprentissages critiques du référentiel national. Curieux, organisé et à l'aise sous pression, je m'oriente vers les métiers de la supply chain connectée et de l'optimisation logistique.
+  </p>
+  <div class="badge-row">
+    <span class="badge">Logistique opérationnelle</span>
+    <span class="badge">Supply Chain</span>
+    <span class="badge">Digitalisation</span>
+    <span class="badge">SAP · Excel VBA · Visio</span>
+    <span class="badge">Anglais · Allemand</span>
+    <span class="badge">Folkling (57)</span>
+  </div>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#stage">Mes expériences</a>
+    <a class="btn btn-outline" href="CV_AIT_SIDI_HAMMOU_Sofiane.pdf" target="_blank">Télécharger mon CV</a>
+  </div>
+
+  <div class="about-cards">
+    <div class="about-card">
+      <div class="about-card-icon">🎓</div>
+      <div class="about-card-title">Formation</div>
+      <div class="about-card-text">BUT MLT MSCC – IUT Moselle-Est, Sarreguemines. Bac Math-SVT – Lycée Jean Moulin, Forbach.</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-icon">🏭</div>
+      <div class="about-card-title">2 stages logistiques</div>
+      <div class="about-card-text">Hubert Auto (distribution pièces auto, S2) · Seifert Logistics Group (entrepôt automobile, S4).</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-icon">💻</div>
+      <div class="about-card-title">Outils maîtrisés</div>
+      <div class="about-card-text">SAP, Excel / VBA, Microsoft Visio, Sineres (ERP), Autossimo, Shopify.</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-icon">⚽</div>
+      <div class="about-card-title">Centres d'intérêt</div>
+      <div class="about-card-text">Football, course à pied. Esprit d'équipe et goût de l'effort transposés au monde professionnel.</div>
+    </div>
+  </div>
+</section>
+
+<!-- APPRENTISSAGES CRITIQUES -->
+<section id="acs">
+  <p class="section-label">Référentiel BUT MLT – Parcours MSCC</p>
+  <h2 class="section-title">Apprentissages critiques validés</h2>
+  <div class="divider"></div>
+  <p class="section-desc">Les apprentissages critiques du référentiel national BUT MLT que j'ai mobilisés et validés via mes SAE, mes stages et le séminaire idéo.</p>
+
+  <div class="ac-grid">
+    <div class="ac-card">
+      <div class="ac-num">AC21.01 · Transporter</div>
+      <div class="ac-title">Chronologie &amp; scénarios</div>
+      <div class="ac-desc">Définir la chronologie des opérations et établir des scénarios d'organisation logistique.</div>
+      <div class="ac-proof">✓ Stage S4 : projet 13 500 palettes (Visio)</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC21.02 · Transporter</div>
+      <div class="ac-title">Faisabilité des solutions</div>
+      <div class="ac-desc">Argumenter la pertinence et faisabilité technique et réglementaire des solutions proposées.</div>
+      <div class="ac-proof">✓ Stage S4 + SAE 4.02 HOYA / SUPERCOOP</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC22.04 · Organiser</div>
+      <div class="ac-title">Adéquation charge/capacité</div>
+      <div class="ac-desc">Organiser l'activité des équipes et gérer l'adéquation charge/capacité.</div>
+      <div class="ac-proof">✓ Stage S4 : outil Excel suivi capacités</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC22.05 · Organiser</div>
+      <div class="ac-title">Cartographie des flux</div>
+      <div class="ac-desc">Cartographier les flux physiques et les flux d'information de la chaîne logistique.</div>
+      <div class="ac-proof">✓ SAE 1.2 + SAE 4.02 HOYA + SUPERCOOP</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC23.03 · Manager</div>
+      <div class="ac-title">Coordination de la chaîne</div>
+      <div class="ac-desc">Coordonner les différentes activités de la chaîne logistique et transport.</div>
+      <div class="ac-proof">✓ Stage S2 (Hubert Auto) + Stage S4</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC23.04 · Manager</div>
+      <div class="ac-title">Management du risque</div>
+      <div class="ac-desc">Intégrer la prévention, le management du risque et le traitement des litiges.</div>
+      <div class="ac-proof">✓ Stage S4 : contraintes sécurité entrepôt</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC23.05 · Manager</div>
+      <div class="ac-title">Outils de gestion</div>
+      <div class="ac-desc">Élaborer et utiliser des outils de gestion adaptés aux activités logistiques.</div>
+      <div class="ac-proof">✓ Stage S4 : tableau Excel automatisé + Sineres S2</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC24.01 MSCC · Digitaliser</div>
+      <div class="ac-title">Besoins de digitalisation</div>
+      <div class="ac-desc">Analyser les besoins des acteurs et les données nécessaires à la digitalisation.</div>
+      <div class="ac-proof">✓ Stage S4 + SAE SUPERCOOP</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC24.02 MSCC · Digitaliser</div>
+      <div class="ac-title">Enjeux du digital</div>
+      <div class="ac-desc">Identifier les enjeux et risques des solutions digitales en termes d'organisation et sécurité.</div>
+      <div class="ac-proof">✓ Stage S4 : SAP, VDA, codes-barres</div>
+    </div>
+    <div class="ac-card">
+      <div class="ac-num">AC24.04 MSCC · Digitaliser</div>
+      <div class="ac-title">Données applicatives</div>
+      <div class="ac-desc">Alimenter, extraire et exploiter les données issues des applications métiers.</div>
+      <div class="ac-proof">✓ SAP / Excel VBA / Visio / Sineres / Autossimo</div>
+    </div>
+  </div>
+</section>
+
+<!-- SAE -->
+<section id="sae">
+  <p class="section-label">Travaux collectifs</p>
+  <h2 class="section-title">Situations d'apprentissage et d'évaluation</h2>
+  <div class="divider"></div>
+  <p class="section-desc">SAE réalisées en groupe au cours des semestres 1 à 4, démontrant la mobilisation concrète des compétences du référentiel.</p>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--violet)"></div>
+      <div class="tl-tag">SAE 1.2 · Semestre 1 · 1ère année</div>
+      <div class="tl-title">Analyse de logistique globale et processus de fonctionnement des entrepôts</div>
+      <span class="note-badge violet">★ Note : 14 / 20</span>
+      <div class="tl-desc">Première SAE de formation portant sur l'analyse d'une situation logistique industrielle réelle. Le groupe a étudié une entreprise du secteur de l'injection plastique (100 M€ de CA, 330 millions de pièces/an, 12 000 tonnes de matières premières consommées annuellement). L'analyse a couvert les flux physiques et informationnels, l'organisation des espaces de stockage, le parc machines et les processus de fonctionnement de l'entrepôt. Cette SAE fondatrice a constitué la première mise en application des concepts logistiques appris en cours.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AC22.05 – Cartographie flux</span>
+        <span class="skill-tag">AC23.03 – Coordination</span>
+        <span class="skill-tag">Analyse de l'existant</span>
+        <span class="skill-tag">Flux physiques &amp; informationnels</span>
+        <span class="skill-tag">Organisation entrepôt</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">SAE 3 · Semestre 3 · Travail de groupe</div>
+      <div class="tl-title">Cas Arktis – Transport international et conditions générales de vente</div>
+      <span class="note-badge">★ Note : 12,5 / 20</span>
+      <div class="tl-desc">Analyse d'un cas pratique portant sur l'achat d'un transpalette électrique auprès d'un fournisseur allemand. L'équipe a travaillé sur la lecture et l'application des conditions générales de vente et de livraison (AGB), l'organisation d'un achat international, la vérification des délais de livraison vers Rotterdam, et la rédaction d'un mail professionnel de commande en allemand. La SAE a mobilisé les compétences de rigueur documentaire, de communication professionnelle bilingue et d'identification des risques contractuels.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AC21.02 – Faisabilité</span>
+        <span class="skill-tag">AC23.04 – Risques</span>
+        <span class="skill-tag">Transport international</span>
+        <span class="skill-tag">Conditions générales (AGB)</span>
+        <span class="skill-tag">Langue vivante 2 – Allemand</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-tag">SAE 4.02 · Semestre 4 · Groupe : Sofiane, Alix, Abdoulaye, Nathan</div>
+      <div class="tl-title">Cas HOYA PARIS – Optimisation d'une supply chain retail</div>
+      <span class="note-badge">★ Note : 15 / 20</span>
+      <div class="tl-desc">Étude approfondie de la supply chain d'une boutique de prêt-à-porter niçoise (HOYA PARIS, 2020). Cartographie complète des acteurs et flux (physiques, informationnels, financiers), identification des problématiques structurelles (rupture OPALINE, stockage 8 m², dépendance fournisseur, absence de prévision) et recommandations concrètes. Calculs quantitatifs : prévision de ventes, stock de sécurité (5 unités), point de commande (16 unités), segmentation ABC.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AC22.05 – Cartographie flux</span>
+        <span class="skill-tag">AC23.05 – Outils de gestion</span>
+        <span class="skill-tag">Stock de sécurité</span>
+        <span class="skill-tag">Prévision de demande</span>
+        <span class="skill-tag">Supply chain retail</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--violet)"></div>
+      <div class="tl-tag">SAE 4.02 · Semestre 4 · Groupe : Sofiane, Alix, Abdoulaye, Nathan</div>
+      <div class="tl-title">Cas SUPERCOOP – Supply chain d'une coopérative alimentaire en circuits courts</div>
+      <span class="note-badge">★ Note : 15 / 20</span>
+      <div class="tl-desc">Analyse de la supply chain de Supercoop (Bordeaux, 2017). Modélisation en 5 niveaux (flux pull), identification des facteurs clés de succès et des enjeux (saisonnalité, bénévolat, viabilité économique, cohérence environnementale). Solutions proposées : plateforme mutualisée, outils de prévision, gestion digitale des bénévoles, dernier kilomètre sobre. Comparaison avec les AMAP du Grand Est et analyse des technologies Industrie 4.0/5.0.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AC22.05 – Cartographie flux</span>
+        <span class="skill-tag">AC23.03 – Coordination</span>
+        <span class="skill-tag">AC24.01 MSCC – Digitalisation</span>
+        <span class="skill-tag">Circuits courts</span>
+        <span class="skill-tag">Industrie 4.0/5.0</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STAGES -->
+<section id="stage">
+  <p class="section-label">Expériences professionnelles</p>
+  <h2 class="section-title">Stages</h2>
+  <div class="divider"></div>
+  <p class="section-desc">Deux immersions en entreprise permettant de valider les compétences du référentiel BUT MLT en situation réelle.</p>
+
+  <!-- Stage 1 - Hubert Auto -->
+  <div class="stage-card s1">
+    <div class="stage-header">
+      <div class="stage-logo s1">🔧</div>
+      <div>
+        <div class="stage-entreprise">Hubert Auto (Autodistribution) – Stiring-Wendel</div>
+        <div class="stage-meta">Distribution de pièces automobiles · Réseau Autodistribution · Semestre 2 · 20 janvier – 14 février 2025</div>
+        <div class="stage-meta" style="margin-top:0.3rem; color:#a78bfa">Tuteurs : Sandra Curti &amp; Mickael Holzer · Référent : Mme Barthélemy Sophie</div>
+        <span class="note-badge violet" style="margin-top:0.5rem">★ Note : 15,75 / 20</span>
+      </div>
+    </div>
+    <div class="stage-problematique">
+      Découvrir le fonctionnement d'une chaîne logistique de distribution de pièces automobiles : fournir le bon produit, au bon moment, dans la bonne qualité, à la bonne quantité et au moindre coût.
+    </div>
+    <div class="stage-grid">
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Préparation de commandes</div>
+        <div class="stage-bloc-text">Mission principale : traitement des bons de commande, localisation des pièces via l'ERP Sineres, organisation par secteur de livraison. Géré seul 50+ commandes un lundi (23 000 pas, 1 seule erreur).</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Réception fournisseurs</div>
+        <div class="stage-bloc-text">Contrôle des livraisons (Logisteo, Automax, Strauch, Trost), pointage des bons de livraison, signalement des écarts et enregistrement dans le système.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Rangement &amp; signalétique</div>
+        <div class="stage-bloc-text">Rangement par référence selon les zones de l'entrepôt. Identification d'une anomalie : étiquettes trop petites, proposition d'amélioration de la signalétique.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Gestion des retours clients</div>
+        <div class="stage-bloc-text">Contrôle visuel des pièces retournées, distinction stock permanent / pièces spécifiques, coordination avec le call center pour l'établissement des avoirs.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Retours garantie Facom</div>
+        <div class="stage-bloc-text">Création d'un document Excel de suivi des pièces Facom défectueuses (référence, nom, numéro de bon, client), envoi au fournisseur, redistribution des pièces de remplacement.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Recherche Autossimo</div>
+        <div class="stage-bloc-text">Identification de références équivalentes entre filtres Isotech et Purflux sur la plateforme Autossimo, restitution sous forme de tableau pour enrichir le catalogue.</div>
+      </div>
+    </div>
+    <div style="margin-top:1.2rem">
+      <div class="stage-bloc-title" style="color:#a78bfa; font-size:0.72rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.5rem;">Apprentissages validés</div>
+      <div class="stage-acs">
+        <span class="stage-ac-tag" style="color:#a78bfa; border-color:rgba(124,58,237,0.3); background:rgba(124,58,237,0.08)">AC23.03 – Coordination</span>
+        <span class="stage-ac-tag" style="color:#a78bfa; border-color:rgba(124,58,237,0.3); background:rgba(124,58,237,0.08)">AC23.05 – Outils (Sineres ERP)</span>
+        <span class="stage-ac-tag" style="color:#a78bfa; border-color:rgba(124,58,237,0.3); background:rgba(124,58,237,0.08)">AC24.04 MSCC – Exploitation données</span>
+        <span class="stage-ac-tag" style="color:#a78bfa; border-color:rgba(124,58,237,0.3); background:rgba(124,58,237,0.08)">Gestion des stocks</span>
+        <span class="stage-ac-tag" style="color:#a78bfa; border-color:rgba(124,58,237,0.3); background:rgba(124,58,237,0.08)">Rigueur documentaire</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 2 - Seifert -->
+  <div class="stage-card s2 stage-gap">
+    <div class="stage-header">
+      <div class="stage-logo s2">🏭</div>
+      <div>
+        <div class="stage-entreprise">Seifert Logistics Group – Hambach (Moselle)</div>
+        <div class="stage-meta">Prestataire logistique automobile · Clients : ZF &amp; INEOS Automotive · ~250 salariés · Semestre 4 · 13 avril – 5 juin 2025</div>
+        <div class="stage-meta" style="margin-top:0.3rem; color:var(--cyan)">Tuteur : M. Romuald Wittmann · Référent pédagogique : M. Jérôme Turquey</div>
+        <span class="note-badge pending" style="margin-top:0.5rem">⏳ Note en attente</span>
+      </div>
+    </div>
+    <div class="stage-problematique">
+      « Comment optimiser l'organisation des flux logistiques et des capacités de stockage dans un entrepôt automobile tout en garantissant la traçabilité des marchandises et le respect des contraintes opérationnelles ? »
+    </div>
+    <div class="stage-grid">
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Service Dispatch</div>
+        <div class="stage-bloc-text">Accueil transporteurs, vérification documentaire (CMR, BL), formalités douanières, coordination avec le service WE.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Service WE (Wareneingang)</div>
+        <div class="stage-bloc-text">Réception marchandises, création Frachtbrief dans SAP, génération étiquettes VDA, contrôle quantitatif à réception.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Étiquetage Unité 8</div>
+        <div class="stage-bloc-text">Étiquetage complet d'un nouveau palettier : codes couleurs par niveau, impression, plastification. Économie réalisée : ~2 600 € vs prestataire externe.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Macro VBA &amp; codes-barres</div>
+        <div class="stage-bloc-text">Création d'une macro Excel VBA pour la génération automatisée des codes-barres des emplacements — gain de temps et fiabilité accrue.</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Outil Excel suivi capacités</div>
+        <div class="stage-bloc-text">Formules automatisées : taux de remplissage, places disponibles, capacités des unités Hambach et Güdingen (Allemagne).</div>
+      </div>
+      <div class="stage-bloc">
+        <div class="stage-bloc-title">Étude 13 500 palettes</div>
+        <div class="stage-bloc-text">Simulation Visio : vérification layout, scénarios de gerbage 4-5 niveaux, analyse contraintes sécurité. Conclusion : intégration impossible dans les conditions actuelles.</div>
+      </div>
+    </div>
+    <div style="margin-top:1.2rem">
+      <div class="stage-bloc-title" style="color:var(--cyan); font-size:0.72rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.5rem;">Apprentissages critiques validés</div>
+      <div class="stage-acs">
+        <span class="stage-ac-tag">AC21.01 – Scénarios Visio</span>
+        <span class="stage-ac-tag">AC21.02 – Faisabilité</span>
+        <span class="stage-ac-tag">AC22.04 – Suivi capacités</span>
+        <span class="stage-ac-tag">AC22.05 – Cartographie flux</span>
+        <span class="stage-ac-tag">AC23.03 – Coordination</span>
+        <span class="stage-ac-tag">AC23.04 – Risques</span>
+        <span class="stage-ac-tag">AC23.05 – Outils Excel</span>
+        <span class="stage-ac-tag">AC24.01 MSCC</span>
+        <span class="stage-ac-tag">AC24.02 MSCC – SAP/VDA</span>
+        <span class="stage-ac-tag">AC24.04 MSCC – SAP/VBA/Visio</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section>
+  <p class="section-label">Savoir-faire</p>
+  <h2 class="section-title">Compétences &amp; outils</h2>
+  <div class="divider"></div>
+  <div class="comp-grid" id="comp-grid">
+    <div class="comp-card">
+      <div class="comp-label">ERP &amp; SIL</div>
+      <div class="comp-name">SAP · Sineres</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="78" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Bureautique avancée</div>
+      <div class="comp-name">Excel / VBA</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="82" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Simulation &amp; layout</div>
+      <div class="comp-name">Microsoft Visio</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="70" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Supply Chain</div>
+      <div class="comp-name">Flux &amp; gestion des stocks</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="80" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Traçabilité</div>
+      <div class="comp-name">Codes-barres &amp; VDA</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="75" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Langues</div>
+      <div class="comp-name">Allemand professionnel</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="60" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Langues</div>
+      <div class="comp-name">Anglais</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="65" style="width:0%"></div></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-label">Soft skills</div>
+      <div class="comp-name">Gestion du stress &amp; rigueur</div>
+      <div class="comp-bar-bg"><div class="comp-bar" data-w="88" style="width:0%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Me retrouver</p>
+  <h2 class="section-title">Contact</h2>
+  <div class="divider"></div>
+  <div class="contact-grid">
+    <a href="mailto:sofiane.aitsidi@gmail.com" class="contact-card">
+      <div class="contact-icon">@</div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-val">sofiane.aitsidi@gmail.com</div>
+      </div>
+    </a>
+    <a href="tel:0616562323" class="contact-card">
+      <div class="contact-icon">📱</div>
+      <div>
+        <div class="contact-label">Téléphone</div>
+        <div class="contact-val">06 16 56 23 23</div>
+      </div>
+    </a>
+    <a href="CV_AIT_SIDI_HAMMOU_Sofiane.pdf" target="_blank" class="contact-card">
+      <div class="contact-icon">📄</div>
+      <div>
+        <div class="contact-label">Curriculum Vitae</div>
+        <div class="contact-val">Télécharger mon CV</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  Sofiane AIT SIDI HAMMOU · BUT MLT MSCC · IUT Moselle-Est · 2ᵉ année · 2025–2026
+</footer>
+
+<script>
+  const bars = document.querySelectorAll('.comp-bar');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.getAttribute('data-w') + '%';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  bars.forEach(b => obs.observe(b));
+</script>
+</body>
+</html>
